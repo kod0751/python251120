@@ -50,6 +50,7 @@ print(a.count('b')) # b가 몇 번 들어가 있는지 세줌
 print(a.find('b')) # 최초로 만나는 index 반환
 print(a.find('x')) # 없으면 -1
 #index()도 비슷하지만 없으면 에러
+print('rfind', a.rfind('b')) # 없으면 -1
 
 b = 'abcde'
 c = ':'
@@ -76,3 +77,5 @@ print(d)
 a = 'https://naver.com'
 print( a.startswith('https'))
 print( a.endswith('.net'))
+
+print('kakao' in a)
