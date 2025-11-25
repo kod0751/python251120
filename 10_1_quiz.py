@@ -243,7 +243,6 @@ for i in user :
       print(i['username'], len(i['username']), i['address']['city'], '공백있음')
     else :
       print(i['username'], len(i['username']), i['address']['city'], '공백없음')
-    
-
 
 print('='*20)
+
