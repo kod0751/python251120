@@ -108,4 +108,96 @@ def test3(c) :
 test3(c)
 print(c)
 
+def test999() :
+    a = 1
+    b = 2
+    print(locals())
+    c= 3
+test999()    
+
+#전역 변수를 바꾸는 방법
+a = 1
+def vartest(z):
+    z = z + 1
+    return z
+a = vartest(a)
+print(a)
+
+print('='*30)
+a=1
+def vartest2():
+    print(a)
+    z = a + 1
+    print(z)
+vartest2()
+
+print('='*30)
+
+def vartest3():
+    a = 3
+vartest3()
+print(a)
+
+print('='*30)
+a=1
+b=2
+def vartest4():
+    global a, b # =을 이용해서 값을 변경할 때 만 golbal 쓰면 된다
+    a = 3
+    b =30
+vartest4()
+print(a,b)
+
+# 내일 만들자
+# 내용은 아직 못 정함
+# TODO
+def test():
+    pass
+
+print('='*30)
+# chaining
+a = "  abcd  "
+b = a.strip().replace('b', 'B').count('c')
+print(b)
+
+# 람다 lambda
+# x = 3
+# def test_sqr(x)
+# return x ** 2
+# a = test_sqr(x)
+
+# a = lambda x: x**2
+
+# test_sqr( lambda x : x**2 )
+
+def test(x,y):
+    """
+        함수 설명
+
+        Args:
+        Parameters:
+            x: int 첫번째 값 
+            y: int 높이 값
+        Returns :
+            integer 두 값을 더한 값
+    """
+    return x + y
+test(1,2)
+
+def testDebug(x,y):
+    x = x+3
+    print(x)
+    y = x+5
+    print(y)
+    return y
+
+testDebug(1,2)
+
+
+
+
+
+
+
+
 
