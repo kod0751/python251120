@@ -1,0 +1,32 @@
+from pack.User import User
+from pack.Guild import Guild
+
+a = User('탱커')
+a.setLevel(30)
+a.addInven('방패')
+a.addInven('칼')
+print(1, a)
+print(2, str(a) + "!!!!!")
+
+b = User('힐러')
+b.setLevel(20)
+b.addInven('물약')
+b.addInven('지팡이')
+b.addInven('주문서')
+print(1, b)
+print(2, str(b) + "!!!!!")
+
+c = User('딜러')
+c.setLevel(10)
+c.addInven('단검')
+print(1, c)
+print(2, str(c) + "!!!!!")
+
+g = Guild('파이썬팟')
+g.addUser(a)
+g.addUser(b)
+g.addUser(c)
+
+print(g.getRanker())
+print(g.getBestSales())
+print(g.getUsers())
