@@ -1,4 +1,4 @@
-class User :
+class User:
     def __init__(self, id):
         self.__id = id
         self.__level = 1

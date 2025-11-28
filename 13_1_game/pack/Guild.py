@@ -21,4 +21,4 @@ class Guild:
         return sales
 
     def getUsers(self):
-        return self.__users 
+        return self.__users
