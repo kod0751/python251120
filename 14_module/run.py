@@ -11,7 +11,11 @@ print(add(1,2))
 print(sub(1,2))
 
 import sys
-print( sys.path ) # 모듈을 가져오는 경로 확인
+print( sys.path ) # 모듈을 가져오는 경로 확인 
+print('='*120)
+print(sys.modules.keys())
+print( 'traceback' in sys.modules.keys())
+print('='*120)
 
 import folder.calc            # 전체경로
 folder.calc.add()
@@ -28,3 +32,4 @@ add()
 print('-'*30)
 from folder.calc import add as addd
 addd()
+
