@@ -1,0 +1,246 @@
+-- 기본 테이블 DEPT
+CREATE TABLE dept
+(
+    deptno INTEGER PRIMARY KEY,
+    dname  VARCHAR(14),
+    loc    VARCHAR(13)
+);
+
+-- EMP 테이블
+CREATE TABLE emp
+(
+    empno    INTEGER PRIMARY KEY,
+    ename    VARCHAR(10),
+    job      VARCHAR(9),
+    mgr      INTEGER,
+    hiredate DATE,
+    sal      NUMERIC(7,2),
+    comm     NUMERIC(7,2),
+    deptno   INTEGER REFERENCES dept(deptno)
+);
+
+-- DEPT 데이터
+INSERT INTO dept VALUES (10,'ACCOUNTING','NEW YORK');
+INSERT INTO dept VALUES (20,'RESEARCH','DALLAS');
+INSERT INTO dept VALUES (30,'SALES','CHICAGO');
+INSERT INTO dept VALUES (40,'OPERATIONS','BOSTON');
+
+-- EMP 데이터
+INSERT INTO emp VALUES
+(7369,'SMITH','CLERK',7902,DATE '1980-12-17',800,NULL,20);
+
+INSERT INTO emp VALUES
+(7499,'ALLEN','SALESMAN',7698,DATE '1981-02-20',1600,300,30);
+
+INSERT INTO emp VALUES
+(7521,'WARD','SALESMAN',7698,DATE '1981-02-22',1250,500,30);
+
+INSERT INTO emp VALUES
+(7566,'JONES','MANAGER',7839,DATE '1981-04-02',2975,NULL,20);
+
+INSERT INTO emp VALUES
+(7654,'MARTIN','SALESMAN',7698,DATE '1981-09-28',1250,1400,30);
+
+INSERT INTO emp VALUES
+(7698,'BLAKE','MANAGER',7839,DATE '1981-05-01',2850,NULL,30);
+
+INSERT INTO emp VALUES
+(7782,'CLARK','MANAGER',7839,DATE '1981-06-09',2450,NULL,10);
+
+INSERT INTO emp VALUES
+(7788,'SCOTT','ANALYST',7566,DATE '1987-07-13',3000,NULL,20);
+
+INSERT INTO emp VALUES
+(7839,'KING','PRESIDENT',NULL,DATE '1981-11-17',5000,NULL,10);
+
+INSERT INTO emp VALUES
+(7844,'TURNER','SALESMAN',7698,DATE '1981-09-08',1500,0,30);
+
+INSERT INTO emp VALUES
+(7876,'ADAMS','CLERK',7788,DATE '1987-07-13',1100,NULL,20);
+
+INSERT INTO emp VALUES
+(7900,'JAMES','CLERK',7698,DATE '1981-12-03',950,NULL,30);
+
+INSERT INTO emp VALUES
+(7902,'FORD','ANALYST',7566,DATE '1981-12-03',3000,NULL,20);
+
+INSERT INTO emp VALUES
+(7934,'MILLER','CLERK',7782,DATE '1982-01-23',1300,NULL,10);
+
+-- BONUS
+CREATE TABLE bonus
+(
+    ename VARCHAR(10),
+    job   VARCHAR(9),
+    sal   NUMERIC,
+    comm  NUMERIC
+);
+
+-- SALGRADE
+CREATE TABLE salgrade
+(
+    grade INTEGER,
+    losal INTEGER,
+    hisal INTEGER
+);
+
+INSERT INTO salgrade VALUES (1,700,1200);
+INSERT INTO salgrade VALUES (2,1201,1400);
+INSERT INTO salgrade VALUES (3,1401,2000);
+INSERT INTO salgrade VALUES (4,2001,3000);
+INSERT INTO salgrade VALUES (5,3001,9999);
+
+COMMIT;
+
+SELECT * FROM emp
+LIMIT 4;
+
+SELECT * FROM dept;
+
+SELECT * FROM emp
+WHERE deptno = 10
+
+-- 문제1 월급이 2000 이상인 사람
+SELECT * FROM emp
+WHERE sal >= 2000
+
+-- 문제2 월급이 2000 초과 3000 이하인 사람
+SELECT * FROM emp
+WHERE 2000 < sal AND sal <= 3000
+
+-- 문제3 사원번호로 SMITH 찾기
+SELECT * FROM emp
+WHERE empno = 7369
+
+SELECT ename, sal FROM emp
+
+--값이 null일 경우 보여주지 않는다
+SELECT * FROM emp
+WHERE comm < 400
+
+-- null을 같이 보여주기
+SELECT * FROM emp
+WHERE comm < 400 OR comm IS NULL
+
+SELECT * FROM emp
+WHERE 
+	job = 'CLERK' OR job = 'SALESMAN'
+	
+--위와 동일한 코드
+SELECT * FROM emp
+WHERE job IN ('CLERK','SALESMAN')
+
+SELECT * FROM emp
+WHERE ename LIKE '%A%'
+
+SELECT lower(ename) FROM emp
+
+-- 소문자로 검색해도 다 검색됨
+SELECT * FROM emp
+WHERE LOWER(ename) LIKE LOWER('%A%')
+
+SELECT * FROM emp
+ORDER BY sal DESC, empno
+LIMIT 1
+
+SELECT job FROM emp
+GROUP BY job
+
+SELECT job,deptno FROM emp
+GROUP BY job,deptno
+ORDER BY job,deptno
+
+SELECT COUNT(*) FROM emp
+
+SELECT job, COUNT(*), MAX(sal) FROM emp
+GROUP BY job
+
+
+select job,deptno, COUNT(*) from emp
+where sal > 1000
+group by job,deptno
+order by deptno
+
+
+/*4*/select job,deptno, COUNT(*) AS cnt 
+/*1*/from emp
+/*2*/where sal > 1000
+/*3*/group by job,deptno
+/*5*/order by deptno  -- cnt 는 여기서 사용가능 순서
+
+SELECT comm FROM emp
+
+SELECT 'N/A' FROM emp
+WHERE comm IS NULL
+
+SELECT
+	comm,
+	CASE
+		WHEN sal > 3000 THEN '고액'
+		WHEN sal <= 3000 AND sal > 1000 THEN '적당'
+		ELSE '소액'
+	end
+FROM emp
+
+SELECT * FROM emp
+WHERE deptno = 10
+UNION all
+SELECT * FROM emp
+WHERE sal >= 2000
+
+SELECT * FROM emp
+SELECT * FROM dept
+
+SELECT *
+FROM emp, dept
+WHERE emp.deptno = dept.deptno
+
+-- 별칭주기
+SELECT e.ename, d.dname, loc, e.deptno
+FROM emp e, dept d
+WHERE e.deptno = d.deptno
+AND e.ename = 'SMITH'
+
+SELECT * 
+FROM emp e1, emp e2
+WHERE e1.mgr = e2.empno
+
+-- LEFT OUTER JOIN: 조건이 NULL 이어도 모두 출력됨
+-- 즉, 왼쪽 테이블의 모든 값을 출력
+SELECT *
+FROM emp e1
+LEFT OUTER JOIN emp e2 ON e1.mgr = e2.empno
+                     
+SELECT *
+FROM emp e
+LEFT OUTER JOIN dept d ON e.deptno = d.deptno
+
+SELECT *
+FROM emp e1
+LEFT OUTER JOIN dept d USING (deptno)
+
+SELECT ROW_NUMBER() over(), e.*
+FROM emp e
+ORDER BY sal
+-- 위와 동일한 코드
+SELECT ROW_NUMBER() over(ORDER BY sal), e.*
+FROM emp e
+
+
+SELECT ROW_NUMBER() over(), a.*
+FROM(
+	SELECT * FROM emp
+	ORDER BY sal
+) a
+
+
+
+
+
+
+
+
+
+
+
