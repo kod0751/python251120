@@ -235,9 +235,11 @@ FROM(
 ) a
 
 
-
-
-
+/*
+	insert, update, delete 이후에
+	commit : 확정
+	rollback : 취소
+*/
 
 
 
